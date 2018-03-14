@@ -1,0 +1,15 @@
+GET 		/rate/del/:film_id   	-Szavazat torlese [Bejelentkezes kell]
+GET + POST  /rate/mod/:film_id   	-Szavazat modositasa [Bejelentkezes kell]
+
+
+GET			/movies      			-Filmek listazasa
+GET 		/movies/search/:name  	-Filmek keresese nev alapjan
+GET + POST	/movies/add    		 	-Film hozzaadasa [Bejelentkezes kell + admin jog]
+
+GET			/logout 				-kilepes
+GET + POST	/forgotpw 				- 
+GET 		/login  				-Belepes
+
+GET + POST	/user/:id  				-Felhasznalo filmjeinek/szavazatainak listazasa
+GET 		/users  				-Felhasznalok listazasa
+GET			/						-MainPage
