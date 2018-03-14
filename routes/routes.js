@@ -1,5 +1,10 @@
 //Middleware includes
 var loginMW = require ('../middleware/login.js');
+var authMW = require ('../middleware/auth.js');
+var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
+var getRatingsMW = require ('../middleware/rate/getRatings.js');
+var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
+
 var movieModel = {}; //Stores movie data like name, id etc [movieId, name]
 var ratingModel = {}; //Stores a rating data [userid, moveiId,rating]
 var userModel = {}; //Stores user id etc [userId, name]
@@ -14,20 +19,27 @@ module.exports = function (app) {
 
     //Delete ratings for film id
     app.use('/rates/del/:film_id',
-        loginMW(objectRepository)
+        authMW(objectRepository),
+        getRatingsMW(objectRepository),
+        deleteRatingsMW(objectRepository)
     );
-    //Search ratings by movie id
-    app.use('/rates/mod/:film_id',
-        loginMW(objectRepository)
+    //Get ratings by movie id
+    app.use('/rates/:film_id',
+        authMW(objectRepository),
+        getRatingsMW(objectRepository)
     );
     ///FOR These you need to be logged in
     //Delete rating for film id
     app.use('/rate/del/:film_id',
-        loginMW(objectRepository)
+        authMW(objectRepository),
+        getRatingsMW(objectRepository),
+        deleteRatingsMW(objectRepository)
     );
     //Search rating by movie id
     app.use('/rate/mod/:film_id',
-        loginMW(objectRepository)
+        authMW(objectRepository),
+        getRatingsMW(objectRepository),
+        modifyRatingMW(objectRepository)
     );
 
     //Search movie by id
