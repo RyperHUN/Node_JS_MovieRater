@@ -1,5 +1,7 @@
 //Middleware includes
 var loginMW = require ('../middleware/login.js');
+var logoutMW = require ('../middleware/logout.js');
+var forgotpwMW = require ('../middleware/forgotpw.js');
 var authMW = require ('../middleware/auth.js');
 var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
 var getRatingsMW = require ('../middleware/rate/getRatings.js');
@@ -7,6 +9,8 @@ var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 
 var getMoviesMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
+
+var getUsers = require('../middleware/user/getUsers.js');
 
 var movieModel = {}; //Stores movie data like name, id etc [movieId, name]
 var ratingModel = {}; //Stores a rating data [userid, moveiId,rating]
@@ -61,26 +65,30 @@ module.exports = function (app) {
     );
     //Lists all movies
     app.use('/movies',
-        getMoviesMW(objectRepository),
+        getMoviesMW(objectRepository)
     );
     
     app.use('/logout',
-        loginMW(objectRepository)
+        logoutMW(objectRepository)
     );
     //A new password can be generated to the username
     app.use('/forgotpw',
-        loginMW(objectRepository)
+        forgotpwMW(objectRepository)
     );
     //List specific user data 
     app.use('/user/:id',
-        loginMW(objectRepository)
+        authMW(objectRepository),
+        getUsers(objectRepository)
     );
     //List users
     app.use('/users',
-        loginMW(objectRepository)
+        authMW(objectRepository),
+        getUsers(objectRepository)
     );
     app.use('/',
-        loginMW(objectRepository)
+        function (req, res, next) {
+            return res.redirect('/static/index.html');
+        }
     );
     
 };
