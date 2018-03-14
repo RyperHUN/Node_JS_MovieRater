@@ -5,9 +5,12 @@ var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
 var getRatingsMW = require ('../middleware/rate/getRatings.js');
 var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 
+var getMoviesMW = require('../middleware/movie/getMovie.js');
+var addMovieMW = require('../middleware/movie/addMovie.js');
+
 var movieModel = {}; //Stores movie data like name, id etc [movieId, name]
 var ratingModel = {}; //Stores a rating data [userid, moveiId,rating]
-var userModel = {}; //Stores user id etc [userId, name]
+var userModel = {}; //Stores user id etc [userId, name, username,pw, isAdmin]
 
 //Ez az amit kiajanlok masok szamara
 module.exports = function (app) {
@@ -19,7 +22,7 @@ module.exports = function (app) {
 
     //Delete ratings for film id
     app.use('/rates/del/:film_id',
-        authMW(objectRepository),
+        authMW(objectRepository), //TODO Maybe authAdmin
         getRatingsMW(objectRepository),
         deleteRatingsMW(objectRepository)
     );
@@ -44,19 +47,21 @@ module.exports = function (app) {
 
     //Search movie by id
     app.use('/movies/search/:id',
-        loginMW(objectRepository)
+        getMoviesMW(objectRepository)
     );
     //Search movie by name
     app.use('/movies/search/:name',
-        loginMW(objectRepository)
+        getMoviesMW(objectRepository)
     );
     //Adds a movie 
     app.use('/movies/add',
-        loginMW(objectRepository)
+        authMW(objectRepository),
+        getMoviesMW(objectRepository), //Check if movie exists
+        addMovieMW(objectRepository)
     );
     //Lists all movies
     app.use('/movies',
-        loginMW(objectRepository)
+        getMoviesMW(objectRepository),
     );
     
     app.use('/logout',
