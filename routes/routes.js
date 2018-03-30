@@ -72,6 +72,14 @@ module.exports = function (app) {
         getMoviesMW(objectRepository),
         renderMW(objectRepository, "movies")
     );
+
+    //Lists all movies
+    app.use('/search',
+        //check if get param exists for search [movieName=""];
+        concatMW(objectRepository),
+        getMoviesMW(objectRepository),
+        renderMW(objectRepository, "search")
+    );
     
     app.use('/login',
         renderMW(objectRepository, "login")
