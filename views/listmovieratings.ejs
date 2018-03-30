@@ -1,0 +1,23 @@
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Title</th>
+            <th>Rating</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            <% var i = 1; %>
+            <% for (key in concat) { var item = concat[key]; %>
+            <tr>
+                <td><%= i %>.</td>
+                <td><%= item.name %></td>
+                <td><%= item.rating %>/10</td>
+                <td><button type="button" class="btn btn-primary btn-xs">Rate</button></td>
+              </tr>
+              <%i = i + 1;%>
+            <% } %>
+        </tbody>
+      </table>
+  </div>

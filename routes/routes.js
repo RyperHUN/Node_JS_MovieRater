@@ -73,6 +73,9 @@ module.exports = function (app) {
         renderMW(objectRepository, "movies")
     );
     
+    app.use('/login',
+        renderMW(objectRepository, "login")
+    );
     app.use('/logout',
         logoutMW(objectRepository),
         function (req, res, next) {
@@ -108,8 +111,10 @@ module.exports = function (app) {
     app.get('/',
         function (req, res, next) {
             console.log('Loading index.html');
-            return res.redirect('/static/index.html');
-        }
+            next();
+        },
+        concatMW(objectRepository), //TODO Add normal data for movies concat all data.
+        renderMW(objectRepository, 'index')
     );
     
 };
