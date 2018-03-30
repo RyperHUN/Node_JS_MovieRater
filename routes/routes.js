@@ -10,6 +10,8 @@ var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 var getMoviesMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 
+var concatMW = require('../middleware/concat.js');
+
 var getUsers = require('../middleware/user/getUsers.js');
 var renderMW = require('../middleware/render.js');
 
@@ -94,6 +96,8 @@ module.exports = function (app) {
         getUsers(objectRepository),
         getRatingsMW(objectRepository), //TODO Only get ratings for userId
         getMoviesMW(objectRepository),  //TODO Only get movies for ratings
+        concatMW(objectRepository),
+        //TODO Concat middleware which joins the data from different tables
         renderMW(objectRepository, 'profile')
     );
     //List users

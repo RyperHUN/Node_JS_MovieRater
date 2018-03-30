@@ -6,7 +6,10 @@
       <div class="starter-template">
         <h1>Toplist</h1>
 
-        <h2>Username: Zsolt</h2>
+        <!-- <%= JSON.stringify(concat); %> <br/>
+        <%= JSON.stringify(userData); %> -->
+
+        <h2>Username: <%= userData.userName %></h2>
 
         <table class="table table-striped">
             <thead>
@@ -18,24 +21,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1.</td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>10/8.6</td>
-                <td><button type="button" class="btn btn-primary btn-xs">Rate</button></td>
-              </tr>
-              <tr>
-                <td>2.</td>
-                <td>Moe</td>
-                <td>10/7.55</td>
-                <td><button type="button" class="btn btn-primary btn-xs">Rate</button></td>
-              </tr>
-              <tr>
-                <td>3.</td>
-                <td>Dooley ipsum</td>
-                <td>10/4</td>
-                <td><button type="button" class="btn btn-primary btn-xs">Rate</button></td>
-              </tr>
+                <% var i = 1; %>
+                <% for (key in concat) { var item = concat[key]; %>
+                <tr>
+                    <td><%= i %>.</td>
+                    <td><%= item.name %></td>
+                    <td><%= item.rating %>/10</td>
+                    <td><button type="button" class="btn btn-primary btn-xs">Rate</button></td>
+                  </tr>
+                  <%i = i + 1;%>
+                <% } %>
             </tbody>
           </table>
       </div>

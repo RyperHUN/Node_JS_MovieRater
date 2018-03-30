@@ -8,6 +8,16 @@ module.exports = function (objectrepository) {
         //If movieName is specified returns all matching
         //If none is specified returns all.
         //loads result in res.tpl.movies
+        res.tpl.movies = [
+            {
+                id : 1,
+                name : 'Lorem ipsum lodaded'
+            },
+            {
+                id : 2,
+                name : 'Another movie Matrix 3'
+            }
+        ];
         return next();
     };
 

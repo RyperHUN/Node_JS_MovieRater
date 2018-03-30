@@ -6,6 +6,7 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         //Checks user authentication, if logged in succes else redirect to mainPage
+        res.tpl.userData = { id : 10, userName : "Ryper"};
         return next();
     };
 
