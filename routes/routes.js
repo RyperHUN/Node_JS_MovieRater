@@ -11,7 +11,7 @@ var getMoviesMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 
 var getUsers = require('../middleware/user/getUsers.js');
-var renderMW = require('../middleware/user/getUsers.js');
+var renderMW = require('../middleware/render.js');
 
 var movieModel = {}; //Stores movie data like name, id etc [movieId, name]
 var ratingModel = {}; //Stores a rating data [userid, moveiId,rating]
@@ -56,7 +56,8 @@ module.exports = function (app) {
     );
     //Search movie by name
     app.use('/movies/search/:name',
-        getMoviesMW(objectRepository)
+        getMoviesMW(objectRepository),
+        renderMW(objectRepository, "search")
     );
     //Adds a movie 
     app.use('/movies/add',
@@ -66,11 +67,15 @@ module.exports = function (app) {
     );
     //Lists all movies
     app.use('/movies',
-        getMoviesMW(objectRepository)
+        getMoviesMW(objectRepository),
+        renderMW(objectRepository, "movies")
     );
     
     app.use('/logout',
-        logoutMW(objectRepository)
+        logoutMW(objectRepository),
+        function (req, res, next) {
+            return res.redirect('/static/index.html');
+        }
     );
     //A new password can be generated to the username
     app.use('/forgotpw',
@@ -78,16 +83,27 @@ module.exports = function (app) {
     );
     //List specific user data 
     app.use('/user/:id',
-        authMW(objectRepository),
-        getUsers(objectRepository)
+        authMW(objectRepository), 
+        getUsers(objectRepository),
+        getRatingsMW(objectRepository), //TODO Only get ratings for userId
+        getMoviesMW(objectRepository),  //TODO Only get movies for ratings
+        renderMW(objectRepository, 'profile')
+    );
+    app.use('/profile',
+        authMW(objectRepository), 
+        getUsers(objectRepository),
+        getRatingsMW(objectRepository), //TODO Only get ratings for userId
+        getMoviesMW(objectRepository),  //TODO Only get movies for ratings
+        renderMW(objectRepository, 'profile')
     );
     //List users
     app.use('/users',
         authMW(objectRepository),
         getUsers(objectRepository)
     );
-    app.use('/',
+    app.get('/',
         function (req, res, next) {
+            console.log('Loading index.html');
             return res.redirect('/static/index.html');
         }
     );
