@@ -1,11 +1,14 @@
 var express = require('express');
 
 var session = require('express-session');
+var ejs = require('ejs');
 var bodyParser = require('body-parser');
 
 var app = express();
 //Minden ami static mappaba van az kivulrol elerheto mint fajl
 app.use('/static/',express.static('static'));
+
+app.set('view engine', 'ejs');
 
 ///TODO
 //Egy session megadva

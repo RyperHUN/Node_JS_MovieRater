@@ -11,6 +11,7 @@ var getMoviesMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 
 var getUsers = require('../middleware/user/getUsers.js');
+var renderMW = require('../middleware/user/getUsers.js');
 
 var movieModel = {}; //Stores movie data like name, id etc [movieId, name]
 var ratingModel = {}; //Stores a rating data [userid, moveiId,rating]
