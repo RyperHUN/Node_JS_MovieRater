@@ -4,6 +4,7 @@ var session = require('express-session');
 var ejs = require('ejs');
 var bodyParser = require('body-parser');
 
+
 var app = express();
 //Minden ami static mappaba van az kivulrol elerheto mint fajl
 app.use('/static/',express.static('static'));
@@ -52,6 +53,8 @@ app.use(function (err, req, res, next) {
 	console.error(err.stack);
 });
 
+//var createTestData = require('./config/testData');
+//createTestData();
 
 var server = app.listen(3000, function () {
 	console.log("Server ON: 3000");

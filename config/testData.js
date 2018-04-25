@@ -20,7 +20,7 @@ var createTestData = function() {
 
     var userId = new mongoose.mongo.ObjectId();
     var userData = new User({_id : userId, name : 'Zsolt',
-    username:'Zsolt',password:'root', isadmin : true});
+    username:'Zsolt',email:'akormanyzsolt@gmail.com',password:'root', isadmin : true});
     userData.save(errorHandler);
 
     Rating.remove({}).exec().catch(errorHandler);
