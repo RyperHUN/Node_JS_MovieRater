@@ -27,6 +27,7 @@ var User = mongoose.model('User', {
     _id : Schema.Types.ObjectId,
     name : String,
     username : String,
+    email : String,
     password : String,
     isAdmin : Boolean
 });

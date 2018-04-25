@@ -12,6 +12,7 @@ var addMovieMW = require('../middleware/movie/addMovie.js');
 
 var concatMW = require('../middleware/concat.js');
 
+var checkLoginMW = require('../middleware/user/checkLogin.js')
 var getUsers = require('../middleware/user/getUsers.js');
 var renderMW = require('../middleware/render.js');
 
@@ -82,12 +83,23 @@ module.exports = function (app) {
     );
     
     app.use('/login',
+        checkLoginMW(objectRepository),
+        //IfAuthentication Successfull, redirect to main page
+        //res.tpl.isLoggedIn = true;
+        function (req, res, next) {
+            console.log('Inside her ' + res.tpl.isLoggedIn);
+            if(res.tpl.isLoggedIn) {
+                
+                return res.redirect('/');
+            }
+            return next();
+        },
         renderMW(objectRepository, "login")
     );
     app.use('/logout',
         logoutMW(objectRepository),
         function (req, res, next) {
-            return res.redirect('/static/index.html');
+            return res.redirect('/');
         }
     );
     //A new password can be generated to the username
