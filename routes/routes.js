@@ -3,6 +3,7 @@ var loginMW = require ('../middleware/login.js');
 var logoutMW = require ('../middleware/logout.js');
 var forgotpwMW = require ('../middleware/forgotpw.js');
 var authMW = require ('../middleware/auth.js');
+var inverseAuthMV = require ('../middleware/inverseAuth.js')
 var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
 var getRatingsMW = require ('../middleware/rate/getRatings.js');
 var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
@@ -85,15 +86,7 @@ module.exports = function (app) {
     app.use('/login',
         checkLoginMW(objectRepository),
         //IfAuthentication Successfull, redirect to main page
-        //res.tpl.isLoggedIn = true;
-        function (req, res, next) {
-            console.log(req.session.isLoggedIn);
-            if(req.session.isLoggedIn) {
-                console.log(req.session.user);
-                return res.redirect('/');
-            }
-            return next();
-        },
+        inverseAuthMV(objectRepository),
         renderMW(objectRepository, "login")
     );
     app.use('/logout',
