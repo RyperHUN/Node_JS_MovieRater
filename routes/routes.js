@@ -10,6 +10,7 @@ var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 
 var getMoviesMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
+var filterMoviesMW = require('../middleware/movie/filterMovie.js');
 
 var getAllDataMW = require('../middleware/getAllMovieData.js');
 
@@ -79,7 +80,7 @@ module.exports = function (app) {
     app.use('/search',
         //check if get param exists for search [movieName=""];
         getAllDataMW(objectRepository),
-        getMoviesMW(objectRepository),
+        filterMoviesMW(objectRepository),
         renderMW(objectRepository, "search")
     );
     
