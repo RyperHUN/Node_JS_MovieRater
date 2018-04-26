@@ -43,9 +43,6 @@ app.use(function (req, res, next) {
 
 require('./routes/routes')(app);
 
-var createTestData = require('./config/testData');
-createTestData();
-
 /**
  * Standard error handler
  */

@@ -131,7 +131,7 @@ module.exports = function (app) {
     app.get('/',
         function (req, res, next) {
             console.log('Loading index.html');
-            next();
+            return next();
         },
         getAllDataMW(objectRepository), //TODO Add normal data for movies concat all data.
         renderMW(objectRepository, 'index')

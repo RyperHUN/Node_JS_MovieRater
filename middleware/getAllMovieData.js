@@ -21,7 +21,7 @@ module.exports = function (objectrepository) {
                 });
                 res.tpl.concat = data;
                 
-                next();
+                return next();
             }
         });
     };
