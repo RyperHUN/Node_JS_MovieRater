@@ -3,25 +3,30 @@
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-<!-- TODO SET CORRECT ACTIVE MENU -->
+
+  <% var makeList = function(name,menuName,isLoggedIn) { %>
+    <%if((!isLoggedIn) || (typeof user !== 'undefined')) {%>
+      <li
+        <% if(viewName == name) { %>
+          class="nav item active"
+        <% } else { %>
+          class="nav-item"
+          <% } %>
+      >
+        <a class="nav-link" href=<%= name -%>> 
+          <%= menuName -%>
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+    <%} %>
+  <%}%>
     <div class="navbar-collapse collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item ">
-          <a class="nav-link" href="/">Toplist </a>
-        </li>
-<% if (typeof user === 'undefined') { %>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Log-in</a>
-        </li>
-<% } else {%>
-      <li class="nav-item active">
-        <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
-      </li>
+        <% makeList("/","Toplist", false); %>
+        <% makeList("/login","Log-in", false); %>
+        <% makeList("/profile","Profile", true); %>
+        <% makeList("/logout","Log Out", true); %>
       <!-- TODO LOGOUT ROUTE -->
-      <li class="nav-item active">
-        <a class="nav-link" href="/logout">Logout <span class="sr-only"></span></a>
-      </li>
-<% } %>
       </ul>
       <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
         <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" name="movieName">
