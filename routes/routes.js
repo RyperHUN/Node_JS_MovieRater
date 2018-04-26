@@ -87,9 +87,8 @@ module.exports = function (app) {
         //IfAuthentication Successfull, redirect to main page
         //res.tpl.isLoggedIn = true;
         function (req, res, next) {
-            console.log('Inside her ' + res.tpl.isLoggedIn);
-            if(res.tpl.isLoggedIn) {
-                
+            console.log(req.session.isLoggedIn);
+            if(req.session.isLoggedIn) {
                 return res.redirect('/');
             }
             return next();
