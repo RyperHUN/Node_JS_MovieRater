@@ -10,7 +10,7 @@ var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 var getMoviesMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 
-var concatMW = require('../middleware/concat.js');
+var getAllDataMW = require('../middleware/getAllMovieData.js');
 
 var checkLoginMW = require('../middleware/user/checkLogin.js')
 var getUsers = require('../middleware/user/getUsers.js');
@@ -77,7 +77,7 @@ module.exports = function (app) {
     //Lists all movies
     app.use('/search',
         //check if get param exists for search [movieName=""];
-        concatMW(objectRepository),
+        getAllDataMW(objectRepository),
         getMoviesMW(objectRepository),
         renderMW(objectRepository, "search")
     );
@@ -89,6 +89,7 @@ module.exports = function (app) {
         function (req, res, next) {
             console.log(req.session.isLoggedIn);
             if(req.session.isLoggedIn) {
+                console.log(req.session.user);
                 return res.redirect('/');
             }
             return next();
@@ -118,7 +119,7 @@ module.exports = function (app) {
         getUsers(objectRepository),
         getRatingsMW(objectRepository), //TODO Only get ratings for userId
         getMoviesMW(objectRepository),  //TODO Only get movies for ratings
-        concatMW(objectRepository),
+        getAllDataMW(objectRepository),
         //TODO Concat middleware which joins the data from different tables
         renderMW(objectRepository, 'profile')
     );
@@ -132,7 +133,7 @@ module.exports = function (app) {
             console.log('Loading index.html');
             next();
         },
-        concatMW(objectRepository), //TODO Add normal data for movies concat all data.
+        getAllDataMW(objectRepository), //TODO Add normal data for movies concat all data.
         renderMW(objectRepository, 'index')
     );
     
