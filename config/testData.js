@@ -29,6 +29,22 @@ var createTestData = function() {
     var ratingData = new Rating({_id : ratingId, rating : 8.6,
                 movie : movieId, user : userId });
     ratingData.save(errorHandler);
+
+    var movieId2 = new mongoose.mongo.ObjectId();
+    var movieData2 = new Movie({_id:movieId2, name : 'Black butterfly'});
+    movieData2.save(errorHandler);
+    var userId2 = new mongoose.mongo.ObjectId();
+    var userData2 = new User({_id : userId2, name : 'Zsofi',
+    username:'Zsofi', email:'zsofi@gmail.com', password:'test', isadmin : false});
+    userData2.save(errorHandler);
+
+    var ratingId2 = new mongoose.mongo.ObjectId();
+    var ratingData2 = new Rating({_id:ratingId2, rating : 10,
+    movie: movieId, user: userId2});
+    ratingData2.save(errorHandler);
+    var ratingData3 = new Rating({_id: new mongoose.mongo.ObjectId(), 
+    rating: 5.3, movie: movieId2, user: userId2});
+    ratingData3.save(errorHandler);
 }
 
 module.exports = createTestData;
