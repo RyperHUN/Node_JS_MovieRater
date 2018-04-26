@@ -13,6 +13,7 @@ var addMovieMW = require('../middleware/movie/addMovie.js');
 var filterMoviesMW = require('../middleware/movie/filterMovie.js');
 
 var getAllDataMW = require('../middleware/getAllMovieData.js');
+var getAllDataForUserId = require('../middleware/getAllMovieDataForUserId.js')
 
 var checkLoginMW = require('../middleware/user/checkLogin.js')
 var getUsers = require('../middleware/user/getUsers.js');
@@ -110,11 +111,11 @@ module.exports = function (app) {
     );
     app.use('/profile',
         authMW(objectRepository), 
-        getUsers(objectRepository),
-        getRatingsMW(objectRepository), //TODO Only get ratings for userId
-        getMoviesMW(objectRepository),  //TODO Only get movies for ratings
-        getAllDataMW(objectRepository),
-        //TODO Concat middleware which joins the data from different tables
+        getAllDataForUserId(objectRepository),
+        function (req, res, next) {
+            res.tpl.userData = req.session.user;
+            return next();
+        },
         renderMW(objectRepository, 'profile')
     );
     //List users
