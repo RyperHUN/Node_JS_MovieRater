@@ -9,13 +9,19 @@
         <li class="nav-item ">
           <a class="nav-link" href="/">Toplist </a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
-        </li>
-<!-- TODO If logged in display logout instead of login-->
+<% if (typeof user === 'undefined') { %>
         <li class="nav-item">
           <a class="nav-link" href="/login">Log-in</a>
         </li>
+<% } else {%>
+      <li class="nav-item active">
+        <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
+      </li>
+      <!-- TODO LOGOUT ROUTE -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/logout">Logout <span class="sr-only"></span></a>
+      </li>
+<% } %>
       </ul>
       <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
         <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" name="movieName">

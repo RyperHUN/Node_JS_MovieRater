@@ -14,6 +14,7 @@ var filterMoviesMW = require('../middleware/movie/filterMovie.js');
 
 var getAllDataMW = require('../middleware/getAllMovieData.js');
 var getAllDataForUserId = require('../middleware/getAllMovieDataForUserId.js')
+var copyAuthCredentials = require('../middleware/copyAuthCredentials.js')
 
 var checkLoginMW = require('../middleware/user/checkLogin.js')
 var getUsers = require('../middleware/user/getUsers.js');
@@ -79,6 +80,7 @@ module.exports = function (app) {
 
     //Lists all movies
     app.use('/search',
+        copyAuthCredentials(objectRepository),
         //check if get param exists for search [movieName=""];
         getAllDataMW(objectRepository),
         filterMoviesMW(objectRepository),
@@ -93,6 +95,7 @@ module.exports = function (app) {
     );
     app.use('/logout',
         logoutMW(objectRepository),
+        copyAuthCredentials(objectRepository),
         function (req, res, next) {
             return res.redirect('/');
         }
@@ -128,6 +131,7 @@ module.exports = function (app) {
             console.log('Loading index.html');
             return next();
         },
+        copyAuthCredentials(objectRepository),
         getAllDataMW(objectRepository), //TODO Add normal data for movies concat all data.
         renderMW(objectRepository, 'index')
     );
