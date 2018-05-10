@@ -4,6 +4,7 @@
             <th>Rank</th>
             <th>Title</th>
             <th>Rating</th>
+            <th> ID </th>
             <th></th>
           </tr>
         </thead>
@@ -14,6 +15,7 @@
                 <td><%= i %>.</td>
                  <td><%= item.name %></td> <!--TODO ADD LINK FOR DETAILEDMOVIE -->
                 <td><%= item.rating %>/10</td>
+                <td><%= item.movieId %></td>
                 <td><button type="button" class="btn btn-primary btn-xs">Rate</button></td>
               </tr>
               <%i = i + 1;%>

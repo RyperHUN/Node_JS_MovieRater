@@ -6,12 +6,14 @@ var mergeElements = function(result) {
         if(elem.movie == null || elem.user == null)
             return;
         var movieName = elem.movie.name;
+        //console.log(elem);
         if(data[movieName]) {
             var obj  = data[movieName];
             obj.rating += elem.rating;
             obj.count += 1;
         } else{
-            data[movieName] = {name : movieName, rating : elem.rating, count : 1};
+            data[movieName] = {name : movieName, rating : elem.rating, 
+                                count : 1,  movieId : elem.movie._id};
         }
     });
     var finalData = [];
