@@ -8,6 +8,7 @@ module.exports = function (objectrepository) {
             return res.redirect('/');
         }
         res.tpl.user = req.session.user;
+        res.tpl.isLoggedIn = req.session.isLoggedIn;
         return next();
     };
 

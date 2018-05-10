@@ -6,7 +6,7 @@ var mergeElements = function(result, userId) {
         var movieName = elem.movie.name;
         var rating = elem.rating;
         if(elem.user._id == userId) {
-            dataArray.push({name:movieName, rating:rating});
+            dataArray.push({name:movieName, rating:rating, movieId : elem.movie._id});
         }
     });
     return dataArray;

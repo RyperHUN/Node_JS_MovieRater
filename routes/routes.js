@@ -51,10 +51,16 @@ module.exports = function (app) {
         deleteRatingsMW(objectRepository)
     );
     //Search rating by movie id
-    app.use('/rate/mod/:film_id',
-        authMW(objectRepository),
-        getRatingsMW(objectRepository),
+    app.use('/rate/mod/:film_id',        
+        authMW(objectRepository)
+    );
+    app.get('/rate/mod/:film_id',
+        getAllDataForUserId(objectRepository) //Includes current rating
+        //TODO Form
+    );
+    app.post('/rate/mod/:film_id',
         modifyRatingMW(objectRepository)
+        //If modify is succesful return to home page
     );
 
     //Search movie by id
