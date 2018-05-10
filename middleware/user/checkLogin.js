@@ -9,7 +9,7 @@ module.exports = function (objectrepository) {
         }
 
         if((req.body === undefined) || (req.body.mail === undefined) || (req.body.password === undefined)) {
-                req.session = false;
+                req.session.isLoggedIn = false;
                 console.log('Login false')
                 return next();
             }
@@ -26,5 +26,4 @@ module.exports = function (objectrepository) {
             return next();
         });
     };
-
 };

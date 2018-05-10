@@ -4,8 +4,11 @@ module.exports = function (objectrepository) {
 
     var userModel = requireOption(objectrepository, 'userModel');
 
+    //Logs out user if logged in
     return function (req, res, next) {
-        //Logs out user if logged in
+        req.session.user = undefined;
+        req.session.isLoggedIn = false;
+        
         return next();
     };
 

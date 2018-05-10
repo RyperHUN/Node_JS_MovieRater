@@ -95,7 +95,6 @@ module.exports = function (app) {
     );
     app.use('/logout',
         logoutMW(objectRepository),
-        copyAuthCredentials(objectRepository),
         function (req, res, next) {
             return res.redirect('/');
         }
