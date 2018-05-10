@@ -16,9 +16,8 @@
                  <td><%= item.name %></td> <!--TODO ADD LINK FOR DETAILEDMOVIE -->
                 <td><%= item.rating %>/10</td>
                 <td><%= item.movieId %></td>
-                <td><form action="/rate/mode/<%= item.movieId %>" method="GET"
-                      <button type="button" class="btn btn-primary btn-xs">Rate</button>
-                    </form>
+                <td>
+                    <a href="/rate/mod/<%= item.movieId %>" class="btn btn-default">Rate</a>
                 </td>
               </tr>
               <%i = i + 1;%>

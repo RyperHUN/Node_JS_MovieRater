@@ -8,7 +8,7 @@ var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
 var getRatingsMW = require ('../middleware/rate/getRatings.js');
 var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 
-var getMoviesMW = require('../middleware/movie/getMovie.js');
+var getMovieByIdMW = require('../middleware/movie/getMovie.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 var filterMoviesMW = require('../middleware/movie/filterMovie.js');
 
@@ -52,11 +52,20 @@ module.exports = function (app) {
     );
     //Search rating by movie id
     app.use('/rate/mod/:film_id',        
+        function(res,tpl,next){
+            console.log("first");
+            return next();
+        },
         authMW(objectRepository)
     );
     app.get('/rate/mod/:film_id',
-        getAllDataForUserId(objectRepository) //Includes current rating
-        //TODO Form
+        function(res,tpl,next){
+            console.log("Second");
+            return next();
+        },
+        getAllDataForUserId(objectRepository), //Includes current rating
+        getMovieByIdMW(objectRepository), // fills res.tpl.found_movie
+        renderMW(objectRepository, "modifyRating")
     );
     app.post('/rate/mod/:film_id',
         modifyRatingMW(objectRepository)
@@ -64,23 +73,23 @@ module.exports = function (app) {
     );
 
     //Search movie by id
-    app.use('/movies/search/:id',
-        getMoviesMW(objectRepository)
+    app.use('/movies/search/:film_id',
+        getMovieByIdMW(objectRepository)
     );
     //Search movie by name
     app.use('/movies/search/:name',
-        getMoviesMW(objectRepository),
+        getMovieByIdMW(objectRepository),
         renderMW(objectRepository, "search")
     );
     //Adds a movie 
     app.use('/movies/add',
         authMW(objectRepository),
-        getMoviesMW(objectRepository), //Check if movie exists
+        getMovieByIdMW(objectRepository), //Check if movie exists
         addMovieMW(objectRepository)
     );
     //Lists all movies
     app.use('/movies',
-        getMoviesMW(objectRepository),
+        getMovieByIdMW(objectRepository),
         renderMW(objectRepository, "movies")
     );
 
@@ -114,7 +123,7 @@ module.exports = function (app) {
         authMW(objectRepository), 
         getUsers(objectRepository),
         getRatingsMW(objectRepository), //TODO Only get ratings for userId
-        getMoviesMW(objectRepository),  //TODO Only get movies for ratings
+        getMovieByIdMW(objectRepository),  //TODO Only get movies for ratings
         renderMW(objectRepository, 'profile')
     );
     app.use('/profile',
