@@ -17,7 +17,10 @@ var mergeElements = function(result) {
     var finalData = [];
     for(var key in data) {
         var averageRating =  data[key].rating / data[key].count;
-        finalData.push({name:key, rating:averageRating});
+        var newObj = data[key];
+        delete newObj.rating;
+        newObj.rating = averageRating;
+        finalData.push(newObj);
     }
     return finalData;
 }
