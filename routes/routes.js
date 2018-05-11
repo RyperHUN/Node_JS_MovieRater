@@ -68,7 +68,8 @@ module.exports = function (app) {
         renderMW(objectRepository, "modifyRating")
     );
     app.post('/rate/mod/:film_id',
-        modifyRatingMW(objectRepository)
+        modifyRatingMW(objectRepository),
+        inverseAuthMV(objectRepository) ///TODO Redirect to movie page
         //If modify is succesful return to home page
     );
 
