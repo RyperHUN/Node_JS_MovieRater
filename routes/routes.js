@@ -32,6 +32,7 @@ module.exports = function (app) {
         userModel: userModel
     };
 
+    //Used when deleting rating
     //Delete ratings for film id
     app.use('/rate/del/:film_id',
         authMW(objectRepository),
@@ -39,25 +40,16 @@ module.exports = function (app) {
         inverseAuthMV(objectRepository) ///TODO Redirect to movie page
     );
     //Get ratings by movie id
+    //TODO IS USED???
     app.use('/rate/:film_id',
         authMW(objectRepository),
         getRatingsMW(objectRepository)
     );
-    ///FOR These you need to be logged in
-    //Delete rating for film id
-    app.use('/rate/del/:film_id',
-        authMW(objectRepository),
-        getRatingsMW(objectRepository),
-        deleteRatingsMW(objectRepository)
-    );
-    //Search rating by movie id
+    //For every rating modify you need auth
     app.use('/rate/mod/:film_id',        
-        function(res,tpl,next){
-            console.log("first");
-            return next();
-        },
         authMW(objectRepository)
     );
+    //For get we only render the page
     app.get('/rate/mod/:film_id',
         function(res,tpl,next){
             console.log("Second");
@@ -67,27 +59,33 @@ module.exports = function (app) {
         getMovieByIdMW(objectRepository), // fills res.tpl.found_movie
         renderMW(objectRepository, "modifyRating")
     );
+    //For post we render the page and then return back.
     app.post('/rate/mod/:film_id',
         modifyRatingMW(objectRepository),
         inverseAuthMV(objectRepository) ///TODO Redirect to movie page
         //If modify is succesful return to home page
     );
-
+    //TODO Is this used?
     //Search movie by id
     app.use('/movies/search/:film_id',
         getMovieByIdMW(objectRepository)
     );
+    //TODO Is this works?
     //Search movie by name
     app.use('/movies/search/:name',
         getMovieByIdMW(objectRepository),
         renderMW(objectRepository, "search")
     );
+    ///TODO A popup for this????
+    ///TODO Only in admin mode?
     //Adds a movie 
     app.use('/movies/add',
         authMW(objectRepository),
         getMovieByIdMW(objectRepository), //Check if movie exists
         addMovieMW(objectRepository)
     );
+    ///TODO Is this used????
+
     //Lists all movies
     app.use('/movies',
         getMovieByIdMW(objectRepository),
@@ -109,17 +107,20 @@ module.exports = function (app) {
         inverseAuthMV(objectRepository),
         renderMW(objectRepository, "login")
     );
+    //TODO After logoit the login not works properly
     app.use('/logout',
         logoutMW(objectRepository),
         function (req, res, next) {
             return res.redirect('/');
         }
     );
+    //TODO FORGET PW
     //A new password can be generated to the username
     app.use('/forgotpw',
         forgotpwMW(objectRepository)
     );
     //List specific user data 
+    //TODO ???? IS USED??????
     app.use('/user/:id',
         authMW(objectRepository), 
         getUsers(objectRepository),
@@ -127,6 +128,8 @@ module.exports = function (app) {
         getMovieByIdMW(objectRepository),  //TODO Only get movies for ratings
         renderMW(objectRepository, 'profile')
     );
+    //Used
+    //TODO Store user data in res.tpl.user
     app.use('/profile',
         authMW(objectRepository), 
         getAllDataForUserId(objectRepository),
@@ -136,11 +139,13 @@ module.exports = function (app) {
         },
         renderMW(objectRepository, 'profile')
     );
+    //????Used??
     //List users
     app.use('/users',
         authMW(objectRepository),
         getUsers(objectRepository)
     );
+    //Used home page
     app.get('/',
         function (req, res, next) {
             console.log('Loading index.html');
