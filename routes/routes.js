@@ -33,13 +33,13 @@ module.exports = function (app) {
     };
 
     //Delete ratings for film id
-    app.use('/rates/del/:film_id',
-        authMW(objectRepository), //TODO Maybe authAdmin
-        getRatingsMW(objectRepository),
-        deleteRatingsMW(objectRepository)
+    app.use('/rate/del/:film_id',
+        authMW(objectRepository),
+        deleteRatingsMW(objectRepository),
+        inverseAuthMV(objectRepository) ///TODO Redirect to movie page
     );
     //Get ratings by movie id
-    app.use('/rates/:film_id',
+    app.use('/rate/:film_id',
         authMW(objectRepository),
         getRatingsMW(objectRepository)
     );
