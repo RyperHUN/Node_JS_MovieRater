@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+var mongoose = require('../../config/db');
 
 module.exports = function (objectrepository) {
 
@@ -18,14 +19,30 @@ module.exports = function (objectrepository) {
         var Ratings = require('../../model/Rating');
 
         var query = {movie:film_id, user:user._id};
-        Ratings.updateOne(query, {$set:{rating:rating}}, function(err, res){
-            if(err) {
-                console.log(err);
+        var finalQuery = {movie:film_id, user:user._id, rating: rating};
+        Ratings.findOne(query, function(err, result){
+            if((err) || !(result)){
+                //Not found
+                Ratings.insertMany(finalQuery, function(err, res){
+                    if((err) || !(res)){
+                        console.log("Insert failed");
+                        return next();
+                    }
+                    console.log("Insert success");
+                    return next();
+                });
+            } else {
+                Ratings.updateOne(query, {$set:{rating:rating}}, function(err, res){
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log("Update rating succesful");
+                    }
+                    return next();
+                });
             }
-            console.log("Update rating succesful");
         });
 
-        return next();
     };
 
 };

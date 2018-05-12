@@ -1,7 +1,9 @@
 <% include header %>
 
 <div class="container">
-  
+    
+    <% include errorlog %>
+    
     <form class="form-signin" method="POST" action="/rate/mod/<%= found_movie.movieId %>">
         <h2 class="form-signin-heading">Provide your rating</h2>
         <label for="inputRating" class="sr-only">Rating:</label>

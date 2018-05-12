@@ -9,7 +9,8 @@ var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
 var getRatingsMW = require ('../middleware/rate/getRatings.js');
 var modifyRatingMW = require ('../middleware/rate/modifyRating.js');
 
-var getMovieByIdMW = require('../middleware/movie/getMovie.js');
+var getMovieById = require('../middleware/movie/getMovieById.js');
+var getMovieByIdFromConcatMW = require('../middleware/movie/getMovieFromConcatId.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 var filterMoviesMW = require('../middleware/movie/filterMovie.js');
 
@@ -52,12 +53,10 @@ module.exports = function (app) {
     );
     //For get we only render the page
     app.get('/rate/mod/:film_id',
-        function(res,tpl,next){
-            console.log("Second");
-            return next();
-        },
-        getAllDataForUserId(objectRepository), //Includes current rating
-        getMovieByIdMW(objectRepository), // fills res.tpl.found_movie
+        ///TODO If no rating yet it is not working
+        getAllDataForUserId(objectRepository), //Includes user data for movies
+        getMovieById(objectRepository), //Includes film ID in found_movie
+        getMovieByIdFromConcatMW(objectRepository), // fills res.tpl.found_movie rating if there is rating
         renderMW(objectRepository, "modifyRating")
     );
     //For post we render the page and then return back.
@@ -69,12 +68,12 @@ module.exports = function (app) {
     //TODO Is this used?
     //Search movie by id
     app.use('/movies/search/:film_id',
-        getMovieByIdMW(objectRepository)
+        getMovieByIdFromConcatMW(objectRepository)
     );
     //TODO Is this works?
     //Search movie by name
     app.use('/movies/search/:name',
-        getMovieByIdMW(objectRepository),
+        getMovieByIdFromConcatMW(objectRepository),
         renderMW(objectRepository, "search")
     );
     ///TODO A popup for this????
@@ -82,14 +81,14 @@ module.exports = function (app) {
     //Adds a movie 
     app.use('/movies/add',
         authMW(objectRepository),
-        getMovieByIdMW(objectRepository), //Check if movie exists
+        getMovieByIdFromConcatMW(objectRepository), //Check if movie exists
         addMovieMW(objectRepository)
     );
     ///TODO Is this used????
 
     //Lists all movies
     app.use('/movies',
-        getMovieByIdMW(objectRepository),
+        getMovieByIdFromConcatMW(objectRepository),
         renderMW(objectRepository, "movies")
     );
 
@@ -131,7 +130,7 @@ module.exports = function (app) {
         authMW(objectRepository), 
         getUsers(objectRepository),
         getRatingsMW(objectRepository), //TODO Only get ratings for userId
-        getMovieByIdMW(objectRepository),  //TODO Only get movies for ratings
+        getMovieByIdFromConcatMW(objectRepository),  //TODO Only get movies for ratings
         renderMW(objectRepository, 'profile')
     );
     //Used

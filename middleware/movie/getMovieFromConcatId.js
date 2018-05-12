@@ -17,8 +17,8 @@ module.exports = function (objectrepository) {
             return elem.movieId == film_id;
         });
         if(found_movie == undefined) {
-            res.tpl.error.push("Film id does not exists in the database");
-            return res.redirect('/');
+            res.tpl.error.push("Film does not contain user rating yet");
+            return next();
         }
 
         res.tpl.found_movie = found_movie;
