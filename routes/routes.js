@@ -100,7 +100,12 @@ module.exports = function (app) {
         filterMoviesMW(objectRepository),
         renderMW(objectRepository, "search")
     );
-    
+    app.use('/register',
+        inverseAuthMV(objectRepository),
+        //registerUserMV(objectRepository),
+        //If post request has register data redirect main page
+        renderMW(objectRepository, "register")
+    )
     app.use('/login',
         checkLoginMW(objectRepository),
         //IfAuthentication Successfull, redirect to main page

@@ -26,6 +26,7 @@
         <!-- LOGIN is only visible if not logged in -->
         <%if((typeof user === 'undefined')) {%>
           <% makeMenuItem("/login","Log-in", false); %>
+          <% makeMenuItem("/register","Register", false); %>
         <% } %>
         <% makeMenuItem("/profile","Profile", true); %>
         <% makeMenuItem("/logout","Log Out", true); %>
