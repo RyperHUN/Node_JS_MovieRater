@@ -3,6 +3,7 @@ var loginMW = require ('../middleware/login.js');
 var logoutMW = require ('../middleware/logout.js');
 var forgotpwMW = require ('../middleware/forgotpw.js');
 var authMW = require ('../middleware/auth.js');
+var registerUserMW = require('../middleware/user/register.js')
 var inverseAuthMV = require ('../middleware/inverseAuth.js')
 var deleteRatingsMW = require ('../middleware/rate/deleteRatings.js');
 var getRatingsMW = require ('../middleware/rate/getRatings.js');
@@ -102,7 +103,7 @@ module.exports = function (app) {
     );
     app.use('/register',
         inverseAuthMV(objectRepository),
-        //registerUserMV(objectRepository),
+        registerUserMW(objectRepository),
         //If post request has register data redirect main page
         renderMW(objectRepository, "register")
     )
