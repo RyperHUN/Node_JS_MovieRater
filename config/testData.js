@@ -2,6 +2,7 @@ var mongoose = require('../config/db');
 var User = require('../model/User');
 var Rating = require('../model/Rating');
 var Movie = require('../model/Movie');
+const bcrypt = require('bcrypt');
 
 var errorHandler= function(err) {
     if(err)
@@ -20,7 +21,7 @@ var createTestData = function() {
 
     var userId = new mongoose.mongo.ObjectId();
     var userData = new User({_id : userId, name : 'Zsolt',
-    username:'Zsolt',email:'akormanyzsolt@gmail.com',password:'root', isadmin : true});
+    username:'Zsolt',email:'akormanyzsolt@gmail.com',password:bcrypt.hashSync("root", 10), isadmin : true});
     userData.save(errorHandler);
 
     Rating.remove({}).exec().catch(errorHandler);
@@ -35,7 +36,7 @@ var createTestData = function() {
     movieData2.save(errorHandler);
     var userId2 = new mongoose.mongo.ObjectId();
     var userData2 = new User({_id : userId2, name : 'Zsofi',
-    username:'Zsofi', email:'zsofi@gmail.com', password:'test', isadmin : false});
+    username:'Zsofi', email:'zsofi@gmail.com', password:bcrypt.hashSync("test", 10), isadmin : false});
     userData2.save(errorHandler);
 
     var ratingId2 = new mongoose.mongo.ObjectId();

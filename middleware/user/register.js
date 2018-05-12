@@ -1,5 +1,5 @@
 var requireOption = require('../common').requireOption;
-
+const bcrypt = require('bcrypt');
 
 module.exports = function (objectrepository) {
 
@@ -18,11 +18,13 @@ module.exports = function (objectrepository) {
                 res.tpl.error.push('Email already exists');
                 return next();                
             }
+
+            var hashPw = bcrypt.hashSync(requestPw, 10);
             //No email exists in DB
             var mongoose = require('../../config/db');
             var userId = mongoose.mongo.ObjectId();
             var userData = new User({_id : userId,name : 'DUMMY',
-             username:'DUMMY',email:requestEmail ,password:requestPw, isadmin : false});
+             username:'DUMMY',email:requestEmail ,password:hashPw, isadmin : false});
             userData.save(function(err){
                 if(err) {
                     res.tpl.error.push("Register failed: " + err);
