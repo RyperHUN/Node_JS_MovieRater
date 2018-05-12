@@ -4,7 +4,7 @@ mongoose.connect('mongodb://localhost:27017/test', function(err){if(err) console
 mongoose.connection.once('open',function () {
   console.log('Connected');
   var createTestData = require('./testData')
-  createTestData()
+  //createTestData()
 }).on('error',function (error) {
   console.log('CONNECTION ERROR:',error);
 });
