@@ -2,6 +2,10 @@ var requireOption = require('../common').requireOption;
 var User = require('../../model/User');
 const bcrypt = require('bcrypt');
 
+var saveCookie = function(user, res){
+    res.cookie('user', user);
+}
+
 module.exports = function (objectrepository) {
 
     return function (req, res, next) {
@@ -16,6 +20,7 @@ module.exports = function (objectrepository) {
         }
         var requestEmail = req.body.mail;
         var requestPw = req.body.password;
+        var requestRemember = req.body.remember == "on";
 
         User.findOne({
             email: requestEmail
@@ -29,6 +34,9 @@ module.exports = function (objectrepository) {
                 // Passwords match
                 req.session.isLoggedIn = true;
                 req.session.user = result;
+                if(requestRemember === true) {
+                    saveCookie(req.session.user, res);
+                }
                 return next();
             } else {
                 // Passwords don't match
