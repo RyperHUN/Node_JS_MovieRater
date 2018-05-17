@@ -119,6 +119,24 @@ module.exports = function (app) {
             return res.redirect('/');
         }
     );
+
+    
+    app.get('/counter', function(req, res) {
+        ctr = req.cookies.counter;
+        if(ctr === undefined) {
+            res.cookie('counter', 1);
+        } else {
+            res.cookie('counter', ++ctr);
+        }
+        console.log(ctr);
+
+        if (!req.cookies.counter) {
+            res.send('This is your first visit!');
+        } else {
+            res.send('This is visit number '+ ctr +'!');
+        }
+    });
+
     //TODO FORGET PW
     //A new password can be generated to the username
     app.use('/forgotpw',

@@ -3,6 +3,7 @@ var express = require('express');
 var session = require('express-session');
 var ejs = require('ejs');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 
 var app = express();
@@ -21,11 +22,11 @@ app.use(session({
 	resave: true,
 	saveUninitialized: false
   }));
-
 /**
  * Parse parameters in POST
  */
 // for parsing application/json
+app.use(cookieParser());
 app.use(bodyParser.json());
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
