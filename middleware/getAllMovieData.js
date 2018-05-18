@@ -25,7 +25,6 @@ var mergeElements = function(result) {
         }
     });
     var finalData = mapForObj(data, function(elem){
-        console.log(elem);
         var averageRating =  elem.rating / elem.count;
         averageRating = Math.round(averageRating * 10) / 10;
         delete elem.count;

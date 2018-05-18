@@ -1,17 +1,15 @@
 var requireOption = require('./common').requireOption;
 
 var mergeElements = function(result, userId) {
-    var dataArray = [];
-    result.forEach(function(elem) {
-        if(elem.movie == null || elem.user == null)
-            return;
+    result = result.filter(function(elem){
+        return elem.user._id == userId && elem.movie && elem.user;
+    });
+    result = result.map(function(elem){
         var movieName = elem.movie.name;
         var rating = elem.rating;
-        if(elem.user._id == userId) {
-            dataArray.push({name:movieName, rating:rating, movieId : elem.movie._id});
-        }
-    });
-    return dataArray;
+        return {name:movieName, rating:rating, movieId : elem.movie._id};
+    })
+    return result;
 }
 
 module.exports = function (objectrepository) {
