@@ -1,3 +1,5 @@
+var requireOption = require('./common').requireOption;
+
 var mergeElements = function(result, userId) {
     var dataArray = [];
     result.forEach(function(elem) {
@@ -15,7 +17,7 @@ var mergeElements = function(result, userId) {
 module.exports = function (objectrepository) {
 
     return function (req, res, next) {
-        var Rating = require('../model/Rating');
+        var Rating = requireOption(objectrepository,'RatingModel');
         
         var userId = req.session.user._id;
         Rating.find({}).populate('user').populate('movie')

@@ -1,5 +1,5 @@
 var requireOption = require('../common').requireOption;
-var User = require('../../model/User');
+
 const bcrypt = require('bcrypt');
 
 var saveCookie = function(user, res){
@@ -22,6 +22,7 @@ module.exports = function (objectrepository) {
         var requestPw = req.body.password;
         var requestRemember = req.body.remember == "on";
 
+        var User = requireOption(objectrepository,'UserModel');
         User.findOne({
             email: requestEmail
         }, function (err, result) {

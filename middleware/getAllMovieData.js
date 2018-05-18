@@ -31,9 +31,7 @@ var mergeElements = function(result) {
 module.exports = function (objectrepository) {
 
     return function (req, res, next) {
-        var Rating = require('../model/Rating');
-        var User = require('../model/Movie');
-        var Movie = require('../model/User');
+        var Rating = requireOption(objectrepository,'RatingModel');
         Rating.find({}).populate('user').populate('movie')
         .exec(function (err, result){
             if(err) {

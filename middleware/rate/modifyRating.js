@@ -16,7 +16,7 @@ module.exports = function (objectrepository) {
         var user = res.tpl.user;
         var rating = req.body.inputRating;
         
-        var Ratings = require('../../model/Rating');
+        var Ratings = requireOption(objectrepository,'RatingModel');
 
         var query = {movie:film_id, user:user._id};
         var finalQuery = {movie:film_id, user:user._id, rating: rating};

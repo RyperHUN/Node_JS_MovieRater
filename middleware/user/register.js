@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
         var requestEmail = req.body.mail;
         var requestPw = req.body.password;
 
-        var User = require('../../model/User');
+        var User = requireOption(objectrepository,'UserModel');
         User.findOne({
             email: requestEmail
         }, function(err, result) {

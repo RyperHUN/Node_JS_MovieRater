@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
         }
         var film_id = req.params.film_id;
 
-        var Movie = require('../../model/Movie');
+        var Movie = requireOption(objectrepository,'MovieModel');
         Movie.findOne({_id : film_id}).exec(function(err, result){
             if((err) || !(result)){
                 res.tpl.error.push("Film id does not exists in the database");

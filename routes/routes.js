@@ -22,16 +22,16 @@ var checkLoginMW = require('../middleware/user/checkLogin.js')
 var getUsers = require('../middleware/user/getUsers.js');
 var renderMW = require('../middleware/render.js');
 
-var movieModel = {}; //Stores movie data like name, id etc [movieId, name]
-var ratingModel = {}; //Stores a rating data [userid, moveiId,rating]
-var userModel = {}; //Stores user id etc [userId, name, username,pw, isAdmin]
+var User = require('../model/User');//Stores user id etc [userId, name, username,pw, isAdmin]
+var Rating = require('../model/Rating');//Stores a rating data [userid, moveiId,rating]
+var Movie = require('../model/Movie'); //Stores movie data like name, id etc [movieId, name]
 
 //Ez az amit kiajanlok masok szamara
 module.exports = function (app) {
     var objectRepository = {
-        movieModel: movieModel,
-        ratingModel: ratingModel,
-        userModel: userModel
+        MovieModel: Movie,
+        RatingModel: Rating,
+        UserModel: User
     };
 
     //Used when deleting rating
