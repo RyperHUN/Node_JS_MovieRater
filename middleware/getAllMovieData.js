@@ -42,7 +42,7 @@ module.exports = function (objectrepository) {
         Rating.find({}).populate('user').populate('movie')
         .exec(function (err, result){
             if(err) {
-                console.log(err);
+                res.tpl.error.push("Error happened when getting data");
             }else {
                 res.tpl.concat = mergeElements(result);
                 //console.log(res.tpl.concat);
