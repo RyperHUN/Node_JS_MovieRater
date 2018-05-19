@@ -43,6 +43,7 @@ module.exports = function (objectrepository) {
         .exec(function (err, result){
             if(err) {
                 res.tpl.error.push("Error happened when getting data");
+                return next("Error happened when getting data");
             }else {
                 res.tpl.concat = mergeElements(result);
                 //console.log(res.tpl.concat);

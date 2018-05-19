@@ -6,6 +6,7 @@ describe('GetAllMovieData MiddleWare test', function(done){
     var req;
     var res;
     var fakeRatingModel;
+    var testRatingData;
 
     before(function(){
         req = { }; 
@@ -15,7 +16,7 @@ describe('GetAllMovieData MiddleWare test', function(done){
             }
         };
 
-        var testRatingData = {
+        testRatingData = {
             movie :{
                 name : "TestMovie",
                 _id : 1
@@ -41,8 +42,6 @@ describe('GetAllMovieData MiddleWare test', function(done){
         };
     });
     it('It should return all movie data', function(done){
-        
-        
         fv = getAllMovieDataMW({RatingModel: fakeRatingModel});
         fv(req,res,function(err){
             expect(err).to.not.exist;
@@ -53,5 +52,38 @@ describe('GetAllMovieData MiddleWare test', function(done){
             expect(mergedRating).closeTo(5.5, 0.01);
             done();
         });
+    });
+    it('It should throw error', function(done){
+        fakeRatingModel.exec = function(cb){
+            cb("error", undefined);
+        }
+        fv = getAllMovieDataMW({RatingModel: fakeRatingModel});
+        var next = function(err){
+            expect(err).to.exist; //If no error err not exists
+            done();
+        }
+        fv(req,res,next);
+    });
+    it('Rating does not have a movie for it, skip it', function(done){
+        testRatingData.movie = undefined;
+        fakeRatingModel.exec = function(cb){
+            cb(undefined, [testRatingData]);
+        }
+        fv = getAllMovieDataMW({RatingModel: fakeRatingModel});
+        var next = function(err){
+            expect(err).to.not.exist;
+            expect(res.tpl.concat).to.exist;
+            expect(res.tpl.concat).to.be.empty;
+            done();
+        }
+        fv(req,res,next);
+    });
+    it('No model specified', function(done){
+        fv = getAllMovieDataMW();
+        var next = function(){
+            expect("not called").to.be.true;
+        }
+        expect(() => fv(req,res,next)).to.throw();
+        done();
     });
 });
