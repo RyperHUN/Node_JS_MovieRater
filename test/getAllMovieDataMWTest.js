@@ -1,10 +1,15 @@
 const assert = require('assert');
 const expect = require('chai').expect;
 
-describe('Get all movie data tests', function(done){
-    it('It should return all movie data', function(done){
-        var req = { }; 
-        var res = { 
+describe('GetAllMovieData MiddleWare test', function(done){
+    const getAllMovieDataMW = require('../middleware/getAllMovieData.js');
+    var req;
+    var res;
+    var fakeRatingModel;
+
+    before(function(){
+        req = { }; 
+        res = { 
             tpl:{ 
                 error : [] 
             }
@@ -18,13 +23,12 @@ describe('Get all movie data tests', function(done){
             rating : 5,
             user : {}
         }
-        testRatingData2 = Object.assign({},testRatingData);
+        var testRatingData2 = Object.assign({},testRatingData);
         testRatingData2.rating = 6;
         var resultData = [
             testRatingData, testRatingData2
         ]
-
-        var fakeRatingModel = {
+        fakeRatingModel = {
             exec: function(cb){
                 cb(undefined, resultData);
             },
@@ -35,7 +39,10 @@ describe('Get all movie data tests', function(done){
                 return this;
             }
         };
-        const getAllMovieDataMW = require('../middleware/getAllMovieData.js');
+    });
+    it('It should return all movie data', function(done){
+        
+        
         fv = getAllMovieDataMW({RatingModel: fakeRatingModel});
         fv(req,res,function(err){
             expect(err).to.not.exist;
