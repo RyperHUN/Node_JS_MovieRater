@@ -15,7 +15,8 @@ module.exports = function (objectrepository) {
 
         if ((req.body === undefined) || (req.body.mail === undefined) || (req.body.password === undefined)) {
             req.session.isLoggedIn = false;
-            console.log('Login false')
+            //console.log('Login false')
+            res.tpl.error.push('No parameters provided for login');
             return next();
         }
         var requestEmail = req.body.mail;
@@ -44,8 +45,6 @@ module.exports = function (objectrepository) {
                 res.tpl.error.push('Password is not matching');
                 return next();
             }
-
-            return next();
         });
     };
 };

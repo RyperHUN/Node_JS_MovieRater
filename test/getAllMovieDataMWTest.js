@@ -8,7 +8,7 @@ describe('GetAllMovieData MiddleWare test', function(done){
     var fakeRatingModel;
     var testRatingData;
 
-    before(function(){
+    beforeEach(function(){
         req = { }; 
         res = { 
             tpl:{ 
