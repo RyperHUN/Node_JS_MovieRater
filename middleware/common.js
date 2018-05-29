@@ -13,3 +13,14 @@ function requireOption(objectRepository, propertyName) {
 
 module.exports.requireOption = requireOption;
 
+///TODO Some kind of model for movie
+function omdbToMyDB(movie){
+    return {
+        name: movie.title,
+        rating : 0,
+        movieId : 0
+    };
+}
+
+module.exports.omdbToMyDB = omdbToMyDB;
+
