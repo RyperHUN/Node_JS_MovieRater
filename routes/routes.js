@@ -13,6 +13,7 @@ var getMovieById = require('../middleware/movie/getMovieById.js');
 var getMovieByIdFromConcatMW = require('../middleware/movie/getMovieFromConcatId.js');
 var addMovieMW = require('../middleware/movie/addMovie.js');
 var filterMoviesMW = require('../middleware/movie/filterMovie.js');
+var getMovieFromOMDB = require('../middleware/getDataFromOMDB.js');
 
 var getAllDataMW = require('../middleware/getAllMovieData.js');
 var getAllDataForUserId = require('../middleware/getAllMovieDataForUserId.js')
@@ -98,6 +99,7 @@ module.exports = function (app) {
         //check if get param exists for search [movieName=""];
         getAllDataMW(objectRepository),
         filterMoviesMW(objectRepository),
+        getMovieFromOMDB(objectRepository),
         renderMW(objectRepository, "search")
     );
     app.use('/register',
